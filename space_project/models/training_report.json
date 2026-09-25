@@ -1,0 +1,91 @@
+{
+  "data_source": "synthetic_physics",
+  "n_train": 6400,
+  "n_test": 1600,
+  "mae": 1.43,
+  "feature_importances": {
+    "miss_distance_km": 0.6182601885828256,
+    "relative_velocity_kms": 0.19172826173579108,
+    "tca_hours_from_now": 0.1195469591809696,
+    "size_class": 0.07046459050041368
+  },
+  "calibration": [
+    {
+      "bin_lo": 0.0,
+      "bin_hi": 10.0,
+      "mean_predicted": 2.940958961118743,
+      "mean_actual": 2.727619910022625,
+      "count": 1129
+    },
+    {
+      "bin_lo": 10.0,
+      "bin_hi": 20.0,
+      "mean_predicted": 13.845470553834097,
+      "mean_actual": 13.002015789688159,
+      "count": 153
+    },
+    {
+      "bin_lo": 20.0,
+      "bin_hi": 30.0,
+      "mean_predicted": 23.8154629213464,
+      "mean_actual": 22.7301849326662,
+      "count": 67
+    },
+    {
+      "bin_lo": 30.0,
+      "bin_hi": 40.0,
+      "mean_predicted": 34.24892502235026,
+      "mean_actual": 33.10144067361425,
+      "count": 30
+    },
+    {
+      "bin_lo": 40.0,
+      "bin_hi": 50.0,
+      "mean_predicted": 45.83000898048635,
+      "mean_actual": 48.87930283215208,
+      "count": 15
+    },
+    {
+      "bin_lo": 50.0,
+      "bin_hi": 60.0,
+      "mean_predicted": 54.707563916571914,
+      "mean_actual": 62.00558798055975,
+      "count": 16
+    },
+    {
+      "bin_lo": 60.0,
+      "bin_hi": 70.0,
+      "mean_predicted": 64.74722184131068,
+      "mean_actual": 74.78888628588035,
+      "count": 10
+    },
+    {
+      "bin_lo": 70.0,
+      "bin_hi": 80.0,
+      "mean_predicted": 73.20009123219519,
+      "mean_actual": 93.47761001987668,
+      "count": 6
+    },
+    {
+      "bin_lo": 80.0,
+      "bin_hi": 90.0,
+      "mean_predicted": 81.80505923165312,
+      "mean_actual": 100.0,
+      "count": 2
+    },
+    {
+      "bin_lo": 90.0,
+      "bin_hi": 100.0,
+      "mean_predicted": 95.50243649525865,
+      "mean_actual": 100.0,
+      "count": 8
+    }
+  ],
+  "model_params": {
+    "n_estimators": 200,
+    "max_depth": 3,
+    "learning_rate": 0.05,
+    "random_state": 42
+  },
+  "note": "MAE of 1.4 points is an honest result for this 4-feature model on noisy Pc data. This is observed on the test split, not a guarantee of operational accuracy."
+}

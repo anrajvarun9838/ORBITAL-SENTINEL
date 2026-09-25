@@ -1,0 +1,22 @@
+# ── Core ──
+streamlit>=1.28.0
+pandas>=2.0.0
+numpy>=1.24.0
+plotly>=5.18.0
+
+# ── Orbital Mechanics ──
+sgp4>=2.22
+skyfield>=1.46
+
+# ── ML / Science ──
+scikit-learn>=1.3.0
+joblib>=1.3.0
+
+# ── Generative AI (optional — template fallback if missing) ──
+anthropic>=0.18.0
+
+# ── Export ──
+fpdf2>=2.7.0
+
+# ── Utilities ──
+requests>=2.31.0
