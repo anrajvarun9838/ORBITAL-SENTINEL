@@ -490,31 +490,3 @@ If you find the project useful, consider starring the repository and contributin
 </p>
 ```
 
-### Push it as your contribution
-
-Because you're a contributor with push access, I recommend **not committing directly to `main`**. On your local machine:
-
-```bash
-git clone https://github.com/anrajvarun9838/ORBITAL-SENTINEL.git
-cd ORBITAL-SENTINEL
-
-git checkout -b docs/improve-readme
-```
-
-Replace `README.md` with the version above, then:
-
-```bash
-git add README.md
-git commit -m "docs: improve Orbital Sentinel README"
-git push -u origin docs/improve-readme
-```
-
-Then open a PR:
-
-```text
-docs/improve-readme → main
-```
-
-That gives you a proper contribution trail on your GitHub profile instead of silently changing the project's `main` branch.
-
-One thing I deliberately **didn't** add is a fake "Live Demo", fake screenshots, fake benchmark numbers, or an invented license. Those should only go into the README once they actually exist in the repository.
