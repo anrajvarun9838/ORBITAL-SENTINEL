@@ -1176,9 +1176,7 @@ def _gemini_answer(
             "google-genai package is not installed."
         )
 
-    client = genai.Client(
-        api_key=api_key
-    )
+    # client is initialized in the try/except block below
 
     context = _build_session_context(
         session_data
@@ -1247,23 +1245,27 @@ STRICT RULES
 Answer using 2-5 sentences unless a list is necessary.
 """
 
-    response = client.models.generate_content(
-        model="gemini-2.5-flash",
-        contents=prompt,
-    )
-
-    text = getattr(
-        response,
-        "text",
-        None
-    )
-
-    if not text:
-        raise RuntimeError(
-            "Gemini returned an empty response."
+    try:
+        client = genai.Client(
+            api_key=api_key
+        )
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt,
         )
 
-    return text.strip()
+        text = getattr(
+            response,
+            "text",
+            None
+        )
+
+        if not text:
+            return "⚠️ AI insights are currently unavailable due to an empty response."
+
+        return text.strip()
+    except Exception as e:
+        return f"⚠️ AI insights are currently unavailable due to an API error: {str(e)}"
 
 
 # ============================================================

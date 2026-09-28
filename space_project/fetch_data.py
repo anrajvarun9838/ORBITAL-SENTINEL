@@ -105,16 +105,17 @@ def fetch_tle_group(group: str, max_objects: int = 25) -> List[Dict]:
         return []
 
 
+import streamlit as st
+
+@st.cache_data
 def fetch_live_tles(
     groups: Optional[List[str]] = None,
     max_per_group: int = 15,
-) -> List[Dict]:
+) -> tuple:
     """
     Fetch TLEs from CelesTrak for all requested groups.
 
-    Falls back to offline sample data if all network fetches fail
-    (per TRD §7 — "Offline sample_data.py fallback, used automatically
-    on fetch failure").
+    Falls back to offline sample data if all network fetches fail.
 
     Parameters
     ----------
@@ -131,9 +132,12 @@ def fetch_live_tles(
     groups = groups or DEFAULT_GROUPS
     all_records: List[Dict] = []
 
-    for grp in groups:
-        recs = fetch_tle_group(grp, max_objects=max_per_group)
-        all_records.extend(recs)
+    try:
+        for grp in groups:
+            recs = fetch_tle_group(grp, max_objects=max_per_group)
+            all_records.extend(recs)
+    except Exception:
+        pass
 
     if all_records:
         # De-duplicate by norad_id (keep first seen)
@@ -145,7 +149,7 @@ def fetch_live_tles(
                 unique.append(r)
         return unique, "live"
     else:
-        warnings.warn("All live fetches failed — using offline sample data.")
+        # Silently fall back to offline sample data without crashing
         return get_sample_tles(), "offline_fallback"
 
 

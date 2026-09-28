@@ -105,7 +105,7 @@ def parse_and_predict_custom_cdm_csv(
 
     # Run ML Model Scoring
     model, training_report = load_model()
-    scored_df = score_events(df, model=model)
+    scored_df = score_events(df, _model=model)
 
     # Fast Vectorized Analytical Pc computation
     md = scored_df["miss_distance_km"].values
