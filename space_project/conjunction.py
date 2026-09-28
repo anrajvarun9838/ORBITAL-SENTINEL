@@ -23,22 +23,16 @@ def detect_conjunctions(
     trajectories: Dict[int, Dict[str, Any]],
     threshold_km: float = 50.0,
 ) -> pd.DataFrame:
-    """
-    Detect conjunction events between all pairs of tracked objects.
+    """Detect conjunction events between all pairs of tracked objects.
 
     Uses vectorised NumPy operations for speed on the O(n²) pairwise scan.
 
-    Parameters
-    ----------
-    trajectories : dict
-        Output of propagate.propagate_objects().
-    threshold_km : float
-        Distance below which a pair is flagged as a conjunction event.
+    Args:
+        trajectories (Dict[int, Dict[str, Any]]): Output of propagate.propagate_objects().
+        threshold_km (float): Distance below which a pair is flagged as a conjunction event.
 
-    Returns
-    -------
-    pd.DataFrame
-        Conjunction Event Records (may be empty if no events found).
+    Returns:
+        pd.DataFrame: Conjunction Event Records (may be empty if no events found).
     """
     ids = list(trajectories.keys())
     n_obj = len(ids)

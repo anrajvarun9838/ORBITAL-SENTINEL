@@ -253,33 +253,34 @@ def _compute_calibration(
 
 # ─── Scoring ──────────────────────────────────────────────────────────────────
 
+import streamlit as st
+
+@st.cache_resource
 def load_model() -> Tuple[GradientBoostingRegressor, Dict[str, Any]]:
-    """Load a pre-trained model, or train one if none exists."""
+    """Load a pre-trained Gradient Boosting Regressor model, or train one if none exists.
+
+    Returns:
+        Tuple[GradientBoostingRegressor, Dict[str, Any]]: The trained model and its training report.
+    """
     if MODEL_PATH.exists():
         data = joblib.load(MODEL_PATH)
         return data["model"], data.get("report", {})
     else:
         return train_model()
 
-
+@st.cache_data
 def score_events(
     events_df: pd.DataFrame,
-    model: Optional[GradientBoostingRegressor] = None,
+    _model: Optional[GradientBoostingRegressor] = None,
 ) -> pd.DataFrame:
-    """
-    Score conjunction events with the trained risk model.
+    """Score conjunction events with the trained risk model to predict risk.
 
-    Parameters
-    ----------
-    events_df : pd.DataFrame
-        Conjunction Event Records.
-    model : GradientBoostingRegressor, optional
-        Pre-loaded model.  If None, loads from disk.
+    Args:
+        events_df (pd.DataFrame): Conjunction Event Records containing required feature columns.
+        _model (Optional[GradientBoostingRegressor]): The trained GBR model. Prefix with _ to prevent Streamlit from hashing the model.
 
-    Returns
-    -------
-    pd.DataFrame
-        Input DataFrame + risk_score + risk_category columns.
+    Returns:
+        pd.DataFrame: The event records appended with risk_score and risk_category.
     """
     if len(events_df) == 0:
         events_df = events_df.copy()
@@ -287,8 +288,8 @@ def score_events(
         events_df["risk_category"] = pd.Series(dtype=str)
         return events_df
 
-    if model is None:
-        model, _ = load_model()
+    if _model is None:
+        _model, _ = load_model()
 
     features = ["miss_distance_km", "relative_velocity_kms",
                 "tca_hours_from_now", "size_class"]
@@ -304,7 +305,7 @@ def score_events(
     X = X.fillna(X.median())
     X = X.replace([np.inf, -np.inf], 0)
 
-    predictions = model.predict(X)
+    predictions = _model.predict(X)
     df["risk_score"] = np.clip(predictions, 0, 100).round(1)
     df["risk_category"] = df["risk_score"].apply(categorize_risk)
 

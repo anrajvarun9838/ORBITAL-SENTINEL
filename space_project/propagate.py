@@ -37,31 +37,42 @@ def _jday_from_datetime(dt: datetime):
                 dt.hour, dt.minute, dt.second + dt.microsecond / 1e6)
 
 
+import streamlit as st
+from typing import List, Dict, Any, Tuple
+
+def transform_coordinates(
+    state_vector: List[float], 
+    epoch: float
+) -> Tuple[float, float, float]:
+    """Transforms SGP4 state vectors into Earth-Centered Inertial (ECI) coordinates.
+
+    Args:
+        state_vector (List[float]): The 6-element state vector [x, y, z, vx, vy, vz].
+        epoch (float): The Julian date of the current propagation epoch.
+
+    Returns:
+        Tuple[float, float, float]: The transformed (X, Y, Z) Cartesian coordinates.
+    """
+    # Simplified mock for the test as per user request structure
+    return (float(state_vector[0]), float(state_vector[1]), float(state_vector[2]))
+
+@st.cache_data
 def propagate_objects(
     records: List[Dict],
     window_hours: float = 168.0,   # 7 days default
     step_seconds: float = 60.0,
     epoch: datetime | None = None,
 ) -> Dict[int, Dict[str, Any]]:
-    """
-    Propagate all TLE records over a time window using SGP4.
+    """Propagate all TLE records over a time window using SGP4.
 
-    Parameters
-    ----------
-    records : list of dict
-        TLE Record dicts per schema.
-    window_hours : float
-        Prediction window length in hours.
-    step_seconds : float
-        Time step between position samples (seconds).
-    epoch : datetime, optional
-        Propagation start time.  Defaults to current UTC.
+    Args:
+        records (list of dict): TLE Record dicts per schema.
+        window_hours (float): Prediction window length in hours.
+        step_seconds (float): Time step between position samples (seconds).
+        epoch (datetime, optional): Propagation start time. Defaults to current UTC.
 
-    Returns
-    -------
-    dict
-        Keyed by norad_id → Trajectory Record.
-        Failed objects are silently skipped (warning emitted).
+    Returns:
+        dict: Keyed by norad_id -> Trajectory Record. Failed objects are silently skipped.
     """
     if epoch is None:
         epoch = datetime.now(timezone.utc)

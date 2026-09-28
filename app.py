@@ -168,7 +168,7 @@ def run_pipeline(
         # Stage 4: Risk Scoring & Analytical Physics
         status.update(label="Stage 4/5: Scoring risk with ML model & Chan analytical 2D Pc...")
         model, training_report = load_model()
-        scored_events = score_events(events_df, model=model)
+        scored_events = score_events(events_df, _model=model)
 
         # Add Analytical Pc, Delta-V, and Explainability to each event
         pcs = []
